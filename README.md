@@ -1,26 +1,21 @@
 # Autonomous Insurance Claims Processing Agent (Lite)
 
-This project is a lightweight backend agent that processes FNOL (First Notice of Loss) documents and recommends an appropriate claim workflow based on extracted information.
+A lightweight backend service that processes FNOL (First Notice of Loss) documents and recommends an appropriate insurance claim workflow.
 
-The goal is **clarity over complexity**, focusing on clean logic, defensive extraction, and explainable decisions.
-
----
-
-## 🧠 What This Project Does
-
-Given an FNOL document (TXT or text-based PDF), the system:
-
-1. Extracts key insurance fields
-2. Identifies missing or inconsistent information
-3. Applies simple routing logic
-4. Returns a JSON response explaining the decision
+Focus: clarity over complexity, clean logic, and explainable decisions.
 
 ---
 
-## 🔍 Extracted Fields
+## 🧠 Approach
 
-The agent attempts to extract:
+Given an FNOL document (.txt or text-based .pdf), the system:
 
+- Extracts key claim fields (best-effort)
+- Identifies missing or inconsistent data
+- Applies simple rule-based routing
+- Returns a JSON response with reasoning
+
+### Extracted Fields
 - Policy Number
 - Policy Holder Name
 - Incident Date
@@ -28,166 +23,110 @@ The agent attempts to extract:
 - Claim Type (vehicle / injury)
 - Estimated Damage Amount
 
-Extraction is **best-effort** and designed to work with semi-structured FNOL documents.
-
 ---
 
 ## 🚦 Routing Logic
 
-The claim is routed using the following priority:
+Priority-based routing:
 
-1. **Manual Review**
-   - Any mandatory field is missing
+1. Manual Review
+   - Mandatory fields missing
    - Low extraction confidence (e.g. blank templates)
 
-2. **Investigation Flag**
-   - Description contains fraud indicators (e.g. "fraud", "staged", "inconsistent")
+2. Investigation Flag
+   - Fraud indicators in description
 
-3. **Specialist Queue**
-   - Claim type is `injury`
+3. Specialist Queue
+   - Injury-related claims
 
-4. **Fast-track**
-   - Estimated damage < 25,000
-   - All mandatory fields present
+4. Fast-track
+   - Damage < 25,000 and all mandatory fields present
 
-5. **Standard Processing**
+5. Standard Processing
    - All other cases
 
-Each response includes a short explanation of why the route was chosen.
+Each response includes a short explanation of the decision.
 
 ---
 
-## 📁 Sample Files (Provided for Testing)
+## 📁 Sample Files
 
-All sample documents are located in the `samples/` folder.
+Sample FNOL documents are available in the samples/ folder.
 
-### 1️⃣ `1_fast_track.txt`
-**Expected Route:** `Fast-track`  
-**Why:**  
-- Damage < 25,000  
-- No missing fields  
-- Non-injury claim  
+1_fast_track.txt  
+Expected Route: Fast-track  
+Reason: Low damage, complete data, non-injury claim  
 
----
+2_manual_review.txt  
+Expected Route: Manual Review  
+Reason: Mandatory fields missing  
 
-### 2️⃣ `2_manual_review.txt`
-**Expected Route:** `Manual Review`  
-**Why:**  
-- Mandatory fields missing  
+3_investigation_flag.txt  
+Expected Route: Investigation Flag  
+Reason: Fraud indicators in description  
 
----
+4_specialist_queue.txt  
+Expected Route: Specialist Queue  
+Reason: Injury claim  
 
-### 3️⃣ `3_investigation_flag.txt`
-**Expected Route:** `Investigation Flag`  
-**Why:**  
-- Accident description contains fraud indicators  
+5_standard_processing.txt  
+Expected Route: Standard Processing  
+Reason: High damage, no special conditions  
 
----
-
-### 4️⃣ `4_specialist_queue.txt`
-**Expected Route:** `Specialist Queue`  
-**Why:**  
-- Claim type is `injury`  
-
----
-
-### 5️⃣ `5_standard_processing.txt`
-**Expected Route:** `Standard Processing`  
-**Why:**  
-- Damage ≥ 25,000  
-- No special conditions  
-
----
-
-### 6️⃣ `acord_blank.pdf`
-**Expected Route:** `Manual Review`  
-**Why:**  
-- This is an unfilled ACORD FNOL template  
-- Contains labels and instructional text but no actual values  
-- The system correctly detects missing fields and low extraction confidence  
+acord_blank.pdf  
+Expected Route: Manual Review  
+Reason: Unfilled ACORD FNOL template with no actual values  
 
 ---
 
 ## 🧪 How to Run the Project
 
-### Prerequisites
+Prerequisites:
 - Java 17+
 - Maven
 
-### Run
-```bash
+Run the application:
+
 mvn spring-boot:run
-```
 
-### Steps to Run
+Application runs at:
 
-1. **Clone the repository**
-```bash
-git clone <your-github-repo-url>
-cd autonomous-claims-agent
-```
-2. **Start the Spring Boot application**
-```bash
-mvn spring-boot:run
-```
-Once the application starts successfully, it runs on: http://localhost:8080
+http://localhost:8080
 
-### 🌐 Using the Application via Browser
+---
 
-1. Open a browser
-2. Navigate to: http://localhost:8080/index.html
-3. Upload an FNOL file (.txt or .pdf)
-4. Submit the form
-The response will be displayed directly in the browser as JSON.
+## 🌐 Test the Application
 
-###🔌 Using an API Testing Tool (Postman / Curl)
+Browser:
 
-You can also test the service using Postman or any API testing tool.
-```Endpoint
+http://localhost:8080/index.html
+
+Upload an FNOL file (.txt or .pdf) and submit.
+
+API (Postman / Curl):
+
 POST http://localhost:8080/claims/upload
-```
 
-### Request Details
+Form-data:
+- key: file
+- type: File
+- value: FNOL document
 
-Method: POST
-Body → form-data
-Key: file
-Type: File
-Value: Upload FNOL document
+Example:
 
-```Example using curl
 curl -X POST http://localhost:8080/claims/upload \
   -F "file=@samples/1_fast_track.txt"
-```
-### The API returns a JSON response containing:
 
-- Extracted fields
-- Missing fields (if any)
-- Recommended route
-- Reasoning
-
-
-## 📝 Notes
-
-- TXT and text-based PDFs are supported
-- Scanned PDFs or blank templates are routed to Manual Review
-- The system is designed to degrade gracefully on low-quality input
+---
 
 ## 🤖 Use of AI Tools
 
-- AI tools (ChatGPT) were used to:
+ChatGPT was used to:
 - Reason about edge cases
-- Improve defensive extraction
+- Improve extraction robustness
 - Refine routing logic
-- Improve code clarity and documentation
+- Improve documentation clarity
 
-## 🎯 Focus of This Assessment
-
-This project emphasizes:
-
-- Logical problem breakdown
-- Clean and readable code
-- Realistic handling of messy input
-- Explainable decision-making
+---
 
 Clarity > complexity.
