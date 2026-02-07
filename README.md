@@ -130,29 +130,24 @@ cd autonomous-claims-agent
 ```bash
 mvn spring-boot:run
 ```
-Once the application starts successfully, it runs on:
+Once the application starts successfully, it runs on: http://localhost:8080
 
-http://localhost:8080
-
-🌐 Using the Application via Browser
+### 🌐 Using the Application via Browser
 
 1. Open a browser
-2. Navigate to:
-```bash
-http://localhost:8080/index.html
-```
+2. Navigate to: http://localhost:8080/index.html
 3. Upload an FNOL file (.txt or .pdf)
 4. Submit the form
 The response will be displayed directly in the browser as JSON.
 
-🔌 Using an API Testing Tool (Postman / Curl)
+###🔌 Using an API Testing Tool (Postman / Curl)
 
 You can also test the service using Postman or any API testing tool.
 ```Endpoint
 POST http://localhost:8080/claims/upload
 ```
 
-Request Details
+### Request Details
 
 Method: POST
 Body → form-data
@@ -164,7 +159,7 @@ Value: Upload FNOL document
 curl -X POST http://localhost:8080/claims/upload \
   -F "file=@samples/1_fast_track.txt"
 ```
-The API returns a JSON response containing:
+### The API returns a JSON response containing:
 
 - Extracted fields
 - Missing fields (if any)
@@ -172,13 +167,13 @@ The API returns a JSON response containing:
 - Reasoning
 
 
-📝 Notes
+## 📝 Notes
 
 - TXT and text-based PDFs are supported
 - Scanned PDFs or blank templates are routed to Manual Review
 - The system is designed to degrade gracefully on low-quality input
 
-🤖 Use of AI Tools
+## 🤖 Use of AI Tools
 
 - AI tools (ChatGPT) were used to:
 - Reason about edge cases
@@ -186,7 +181,7 @@ The API returns a JSON response containing:
 - Refine routing logic
 - Improve code clarity and documentation
 
-🎯 Focus of This Assessment
+## 🎯 Focus of This Assessment
 
 This project emphasizes:
 
