@@ -117,3 +117,82 @@ All sample documents are located in the `samples/` folder.
 ### Run
 ```bash
 mvn spring-boot:run
+```
+
+### Steps to Run
+
+1. **Clone the repository**
+```bash
+git clone <your-github-repo-url>
+cd autonomous-claims-agent
+```
+2. **Start the Spring Boot application**
+```bash
+mvn spring-boot:run
+```
+Once the application starts successfully, it runs on:
+
+http://localhost:8080
+
+🌐 Using the Application via Browser
+
+1. Open a browser
+2. Navigate to:
+```bash
+http://localhost:8080/index.html
+```
+3. Upload an FNOL file (.txt or .pdf)
+4. Submit the form
+The response will be displayed directly in the browser as JSON.
+
+🔌 Using an API Testing Tool (Postman / Curl)
+
+You can also test the service using Postman or any API testing tool.
+```Endpoint
+POST http://localhost:8080/claims/upload
+```
+
+Request Details
+
+Method: POST
+Body → form-data
+Key: file
+Type: File
+Value: Upload FNOL document
+
+```Example using curl
+curl -X POST http://localhost:8080/claims/upload \
+  -F "file=@samples/1_fast_track.txt"
+```
+The API returns a JSON response containing:
+
+- Extracted fields
+- Missing fields (if any)
+- Recommended route
+- Reasoning
+
+
+📝 Notes
+
+- TXT and text-based PDFs are supported
+- Scanned PDFs or blank templates are routed to Manual Review
+- The system is designed to degrade gracefully on low-quality input
+
+🤖 Use of AI Tools
+
+- AI tools (ChatGPT) were used to:
+- Reason about edge cases
+- Improve defensive extraction
+- Refine routing logic
+- Improve code clarity and documentation
+
+🎯 Focus of This Assessment
+
+This project emphasizes:
+
+- Logical problem breakdown
+- Clean and readable code
+- Realistic handling of messy input
+- Explainable decision-making
+
+Clarity > complexity.
