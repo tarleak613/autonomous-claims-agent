@@ -1,0 +1,26 @@
+AUTOMOBILE LOSS NOTICE
+
+POLICY NUMBER: POL123456
+NAME OF INSURED: Rahul Sharma
+INSURED LOCATION CODE: IN-KA-001
+
+DATE OF LOSS: 01/02/2026
+TIME OF LOSS: 18:45
+LOCATION OF LOSS: Outer Ring Road, Bangalore
+
+DESCRIPTION OF ACCIDENT:
+The insured vehicle was rear-ended at a traffic signal.
+No injuries were reported and the incident does not appear staged or fraudulent.
+
+CLAIM TYPE: vehicle
+
+INSURED VEHICLE DETAILS:
+MAKE: Hyundai
+MODEL: i20
+YEAR: 2021
+PLATE NUMBER: KA01AB1234
+
+DESCRIBE DAMAGE:
+Rear bumper damaged, minor dent on trunk.
+
+ESTIMATE AMOUNT: 18000
